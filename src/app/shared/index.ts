@@ -1,0 +1,1 @@
+let i:string = 'Hi';
