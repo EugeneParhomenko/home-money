@@ -32,16 +32,6 @@
       "id": 3,
       "name": "Машина",
       "capacity": 7000
-    },
-    {
-      "name": "Пумба",
-      "capacity": 2333,
-      "id": 4
-    },
-    {
-      "name": "Додик",
-      "capacity": 15000,
-      "id": 5
     }
   ],
   "events": [
