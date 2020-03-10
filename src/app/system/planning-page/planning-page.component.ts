@@ -19,7 +19,7 @@ export class PlanningPageComponent implements OnInit, OnDestroy {
 
   bill: Bill;
   categories: Category[] = [];
-  events: WFMEvent;
+  events: WFMEvent[] = [];
 
   constructor(
     private billService:BillService, 
@@ -32,10 +32,10 @@ export class PlanningPageComponent implements OnInit, OnDestroy {
       this.billService.getBill(),
       this.categoriesService.getCategories(),
       this.eventsServices.getEvents()
-    ).subscribe(([billS, catS, eventS]) => {
-      this.bill = billS;
-      this.categories = catS;
-      this.events = eventS;
+    ).subscribe(([billC, catC, eventC]) => {
+      this.bill = billC;
+      this.categories = catC;
+      this.events = eventC;
 
       this.isLoaded = true;
     });
@@ -44,10 +44,24 @@ export class PlanningPageComponent implements OnInit, OnDestroy {
   getCategoryCost(cat: Category): number {
     const catEvents = this.events.filter(e => e.category === cat.id && e.type === 'outcome');
     return catEvents.reduce((total, e) => {
-      debugger;
       total += e.amount;
       return total;
     }, 0);
+  }
+
+  private getPercent(cat: Category): number {
+    const percent = (100 * this.getCategoryCost(cat)) / cat.capacity;
+    return percent > 100 ? 100 : percent;
+  }
+
+  getCatPercent(cat: Category): string {
+    return this.getPercent(cat) + '%';
+  }
+
+  getCatColorClass(cat: Category): string {
+    const percent = this.getPercent(cat);
+    return percent < 60 ? 'success' : percent >= 100 ? 'danger' : 'warning';
+    
   }
 
   ngOnDestroy() {

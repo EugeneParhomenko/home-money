@@ -18,4 +18,8 @@ export class EventsService extends BaseApi {
         return this.get('events');
     }
 
+    getEventById(id: string):Observable<WFMEvent>{
+        return this.get(`events/${id}`);
+    }
+
 }
